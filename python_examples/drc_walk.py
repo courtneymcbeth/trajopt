@@ -35,7 +35,7 @@ def request_skeleton(n_steps):
             "type" : "stationary"
         }
     }
-    for i in xrange(1,n_steps):
+    for i in range(1,n_steps):
         request["costs"].extend([
          #{
              #"type":"potential_energy",
@@ -82,7 +82,7 @@ def step_forward_request(robot, n_steps, stepping_foot, dx, dy):
     stepping_final_xyz = stepping_init_xyz + np.array([dx, dy, 0])
     stepping_final_wxyz = rave.quatFromAxisAngle([0,0,1], z_angle)
     
-    for i in xrange(1, n_steps):
+    for i in range(1, n_steps):
         request["constraints"].extend([
             {
                 "type":"pose",
@@ -135,7 +135,7 @@ def shift_weight_request(robot, n_steps, to_foot):
     from_foot_xyz, from_foot_quat = xyzQuatFromMatrix(robot.GetLink(from_foot).GetTransform())
     to_foot_xyz, to_foot_quat = xyzQuatFromMatrix(robot.GetLink(to_foot).GetTransform())
         
-    for i in xrange(1, n_steps):
+    for i in range(1, n_steps):
         request["constraints"].extend([
             {
                 "type":"pose",
@@ -189,7 +189,7 @@ def press_button_request(robot, hand_xyz, hand_link, foot_links, n_steps):
     from_foot_xyz, from_foot_quat = xyzQuatFromMatrix(robot.GetLink(from_foot).GetTransform())
     to_foot_xyz, to_foot_quat = xyzQuatFromMatrix(robot.GetLink(to_foot).GetTransform())
     
-    for i in xrange(1, n_steps):
+    for i in range(1, n_steps):
         request["constraints"].extend([
             {
                 "type":"pose",
@@ -238,7 +238,7 @@ def press_button_request(robot, hand_xyz, hand_link, foot_links, n_steps):
     
 def animate_traj(viewer, robot, traj):
     for (i,row) in enumerate(traj):
-        print "step",i
+        print("step",i)
         robot.SetActiveDOFValues(row)
         viewer.Idle()
         
@@ -259,7 +259,7 @@ if __name__ == "__main__":
             viewer = trajoptpy.GetViewer(env)
             IPython.lib.inputhook.set_inputhook(viewer.Step)
         except ImportError:
-            print "can't set IPython input hook. you won't be able to interact with plot while IPython is idling"
+            print("can't set IPython input hook. you won't be able to interact with plot while IPython is idling")
             pass
         
         

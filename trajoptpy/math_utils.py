@@ -1,7 +1,7 @@
 """
 Simple functions on numpy arrays
 """
-from __future__ import division
+
 import numpy as np
 
 def interp2d(x,xp,yp):

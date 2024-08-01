@@ -135,9 +135,9 @@ def plan(robot, manip, end_joints, end_pose = None):
         t_verify += time() - t_start_verify
         
         if not is_safe:                       
-            print "optimal trajectory has a collision. trying a new initialization"
+            print("optimal trajectory has a collision. trying a new initialization")
         else:
-            print "planning successful after %s initialization"%(i_init+1)
+            print("planning successful after %s initialization"%(i_init+1))
             success = True
             break
     t_total = time() - t_start
@@ -176,10 +176,10 @@ for (x,y,z) in zip(xs.flat, ys.flat, zs.flat):
         results.append( plan(robot, manip, target_joints, wxyzxyz if args.pose_goal else None) )
 
 success_frac = np.mean([result.success for result in results])
-print "success frac:", success_frac
-print "avg total time:", np.mean([result.t_total for result in results])
-print "avg optimization time:", np.mean([result.t_opt for result in results])
-print "avg verification time:", np.mean([result.t_verify for result in results])
+print("success frac:", success_frac)
+print("avg total time:", np.mean([result.t_total for result in results]))
+print("avg optimization time:", np.mean([result.t_opt for result in results]))
+print("avg verification time:", np.mean([result.t_verify for result in results]))
 
 
   

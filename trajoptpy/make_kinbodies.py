@@ -1,4 +1,4 @@
-from __future__ import division
+
 import openravepy as rave
 import numpy as np
 
