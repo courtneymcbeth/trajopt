@@ -1,17 +1,15 @@
 function(boost_python_module NAME)
-  find_package(PythonLibs 2 REQUIRED)
-  find_package(Boost COMPONENTS python REQUIRED)
+  find_package(PythonLibs 3 REQUIRED)
+  find_package(Boost COMPONENTS python3 REQUIRED)
   find_package(Numpy)
 
-
-
   set(DEP_LIBS
-    ${Boost_PYTHON_LIBRARY}
+    ${Boost_PYTHON3_LIBRARY}
     ${PYTHON_LIBRARIES}
     )
-  #these are required includes for every ecto module
+  # these are required includes for every ecto module
   include_directories(
-    ${PYTHON_INCLUDE_PATH}
+    ${PYTHON_INCLUDE_DIRS}
     ${Boost_INCLUDE_DIRS}
     )
   add_library(${NAME} SHARED
