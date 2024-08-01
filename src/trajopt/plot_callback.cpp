@@ -5,6 +5,8 @@
 #include <boost/foreach.hpp>
 #include "trajopt/problem_description.hpp"
 #include <set>
+#include <boost/bind/bind.hpp>
+#include <boost/bind/placeholders.hpp>
 using namespace OpenRAVE;
 using namespace util;
 using namespace std;
@@ -52,7 +54,7 @@ Optimizer::Callback PlotCallback(TrajOptProb& prob) {
                       cnts,
                       boost::ref(*prob.GetRAD()),
                       boost::ref(prob.GetVars()),
-                      _2);
+                      boost::placeholders::_2);
 }
 
 }

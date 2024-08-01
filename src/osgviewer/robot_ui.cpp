@@ -5,6 +5,9 @@ namespace OR = OpenRAVE;
 #include <boost/foreach.hpp>
 #include "utils/stl_to_string.hpp"
 using namespace util;
+#include <functional>
+#include <boost/bind/bind.hpp>
+#include <boost/bind/placeholders.hpp>
 
 namespace {
 template <class T>
@@ -30,7 +33,7 @@ vector<double> GetDOFValues(const OR::RobotBase::Manipulator& manip) {
 
 ManipulatorControl::ManipulatorControl(OpenRAVE::RobotBase::ManipulatorPtr manip, OSGViewerPtr viewer) :
       m_manip(manip), m_viewer(viewer) {
-  viewer->AddMouseCallback(boost::bind(&ManipulatorControl::ProcessMouseInput, this, _1));
+  viewer->AddMouseCallback(boost::bind(&ManipulatorControl::ProcessMouseInput, this, boost::placeholders::_1));
 }
 
 bool ManipulatorControl::ProcessMouseInput(const osgGA::GUIEventAdapter &ea) {
@@ -61,7 +64,8 @@ bool ManipulatorControl::ProcessMouseInput(const osgGA::GUIEventAdapter &ea) {
     osg::Vec3 xdir = depthdir ^ ydir;
 
 
-    OpenRAVE::Transform T = m_manip->GetEndEffectorTransform();
+    // OpenRAVE::Transform T = m_manip->GetEndEffectorTransform();  
+    OpenRAVE::Transform T = m_manip->GetEndEffector()->GetTransform();
     float depth = (toOsgVec3(T.trans)-from) * depthdir;
     osg::Vec3 dragvec = xdir*(depth*dx/ea.getWindowWidth()) + ydir*(depth*dy/ea.getWindowHeight());
     cout << toRave(dragvec) << endl;

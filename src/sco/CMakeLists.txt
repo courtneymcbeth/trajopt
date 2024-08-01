@@ -1,7 +1,9 @@
 find_package(Eigen REQUIRED)
 include_directories(${Eigen_INCLUDE_DIRS})
 
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -no-pie")
 
 set(SCO_SOURCE_FILES
   solver_interface.cpp

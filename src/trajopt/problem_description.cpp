@@ -20,6 +20,9 @@ using namespace OpenRAVE;
 using namespace trajopt;
 using namespace util;
 
+#include <boost/bind/bind.hpp>
+#include <boost/bind/placeholders.hpp>
+
 namespace {
 
 
@@ -337,7 +340,7 @@ void SetupPlotting(TrajOptProb& prob, Optimizer& opt) {
   TrajPlotterPtr plotter = prob.GetPlotter();
   plotter->Add(prob.getCosts());
   plotter->Add(prob.getConstraints());
-  opt.addCallback(boost::bind(&TrajPlotter::OptimizerCallback, *plotter, _1, _2));
+  opt.addCallback(boost::bind(&TrajPlotter::OptimizerCallback, *plotter,  boost::placeholders::_1,  boost::placeholders::_2));
 }
 
 

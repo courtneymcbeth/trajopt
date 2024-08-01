@@ -14,7 +14,7 @@
 #include <osg/BlendFunc>
 #include <osg/io_utils>
 #include <iostream>
-#include <osg/CameraNode>
+#include <osg/Camera>
 #include <osgDB/WriteFile>
 #include <osgDB/ReadFile>
 #include "utils/logging.hpp"
@@ -76,7 +76,8 @@ osg::Node* osgNodeFromGeom(const KinBody::Link::Geometry& geom) {
 
   switch(geom.GetType()) {
 
-  case KinBody::Link::GEOMPROPERTIES::GeomSphere: {
+  // case KinBody::Link::GEOMPROPERTIES::GeomSphere: {
+  case KinBody::Link::GeomSphere: {
 
     osg::Sphere* s = new osg::Sphere();
     s->setRadius(geom.GetSphereRadius());
@@ -85,7 +86,8 @@ osg::Node* osgNodeFromGeom(const KinBody::Link::Geometry& geom) {
     break;
   }
   //  Geometry is defined like a Box
-  case KinBody::Link::GEOMPROPERTIES::GeomBox: {
+  // case KinBody::Link::GEOMPROPERTIES::GeomBox: {
+  case KinBody::Link::GeomBox: {
 
     osg::Box* box = new osg::Box();
 
@@ -96,7 +98,8 @@ osg::Node* osgNodeFromGeom(const KinBody::Link::Geometry& geom) {
     break;
   }
   //  Geometry is defined like a Cylinder
-  case KinBody::Link::GEOMPROPERTIES::GeomCylinder: {
+  // case KinBody::Link::GEOMPROPERTIES::GeomCylinder: {
+  case KinBody::Link::GeomCylinder: {
 
 
     // make SoCylinder point towards z, not y
@@ -108,7 +111,8 @@ osg::Node* osgNodeFromGeom(const KinBody::Link::Geometry& geom) {
     break;
   }
   //  Extract geometry from collision Mesh
-  case KinBody::Link::GEOMPROPERTIES::GeomTrimesh: {
+  // case KinBody::Link::GEOMPROPERTIES::GeomTrimesh: {
+  case KinBody::Link::GeomTrimesh: {
     // make triangleMesh
     osg::Drawable* mesh_drawable = toOsgDrawable(geom.GetCollisionMesh());
     geode->addDrawable(mesh_drawable);
@@ -235,14 +239,14 @@ void AddLights(osg::Group* group) {
 
 
 // http://forum.openscenegraph.org/viewtopic.php?t=7214
-class SnapImageDrawCallback : public osg::CameraNode::DrawCallback {
+class SnapImageDrawCallback : public osg::Camera::DrawCallback {
 public:
   SnapImageDrawCallback() { _snapImageOnNextFrame = false; }
   void setFileName(const std::string& filename) { _filename = filename; }
   const std::string& getFileName() const { return _filename; }
   void setSnapImageOnNextFrame(bool flag) { _snapImageOnNextFrame = flag; }
   bool getSnapImageOnNextFrame() const { return _snapImageOnNextFrame; }
-  virtual void operator () (const osg::CameraNode& camera) const {
+  virtual void operator () (const osg::Camera& camera) const {
     if (!_snapImageOnNextFrame) return;
     int x,y,width,height;
     x = camera.getViewport()->x();
@@ -476,8 +480,8 @@ boost::shared_ptr<OSGViewer> OSGViewer::GetOrCreate(OpenRAVE::EnvironmentBasePtr
   ViewerBasePtr viewer = env->GetViewer("osg");
   if (!viewer) {
     LOG_INFO("creating viewer");
-    viewer = ViewerBasePtr(new OSGViewer(env));
-    env->AddViewer(viewer);
+    // viewer = ViewerBasePtr(new OSGViewer(env));
+    // env->AddViewer(viewer);
   }
   else {
     LOG_INFO("already have a viewer for this environment");

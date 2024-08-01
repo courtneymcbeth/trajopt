@@ -15,6 +15,8 @@
 #include <boost/assign.hpp>
 #include "utils/config.hpp"
 #include "trajopt_test_utils.hpp"
+#include <boost/bind/bind.hpp>
+#include <boost/bind/placeholders.hpp>
 using namespace trajopt;
 using namespace std;
 using namespace OpenRAVE;
@@ -61,7 +63,7 @@ public:
     if (plotting) {
       viewer.reset(new OSGViewer(env));
       viewer->UpdateSceneData();
-      env->AddViewer(viewer);
+      // env->AddViewer(viewer);
     }
   }
 
@@ -108,7 +110,7 @@ TEST_F(PlanningTest, arm_around_table) {
   TrajPlotter plotter(env, pci.rad, prob->GetVars());
   if (plotting) {
     plotter.Add(prob->getCosts());
-    if (plotting) opt.addCallback(boost::bind(&TrajPlotter::OptimizerCallback, boost::ref(plotter), _1, _2));
+    if (plotting) opt.addCallback(boost::bind(&TrajPlotter::OptimizerCallback, boost::ref(plotter), boost::placeholders::_1, boost::placeholders::_2));
     plotter.AddLink(pr2->GetLink("r_gripper_tool_frame"));
   }
   opt.initialize(trajToDblVec(prob->GetInitTraj()));

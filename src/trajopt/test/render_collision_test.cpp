@@ -53,7 +53,7 @@ int main() {
 
   cc = CollisionChecker::GetOrCreate(*env);
   viewer.reset(new OSGViewer(env));
-  env->AddViewer(viewer);
+  // env->AddViewer(viewer);
 
 
 
