@@ -7,7 +7,7 @@ import cloudprocpy
 def calc_hull(points):
     if len(points) < 3: return points, np.zeros((0,3), int)
     elif len(points) == 3: return points, np.array([[0,1,2]], dtype=int)
-    elif len(points) == 4: return points, np.array(list(itertools.combinations(range(4),3)), dtype=int)
+    elif len(points) == 4: return points, np.array(list(itertools.combinations(list(range(4)),3)), dtype=int)
     else:
         while True:
             pertpts = points + np.random.randn(*points.shape)*.001
@@ -15,7 +15,7 @@ def calc_hull(points):
                 delaunay = scipy.spatial.Delaunay(pertpts)
                 return delaunay.points, delaunay.convex_hull
             except Exception:
-                print "qhull error, returning"
+                print("qhull error, returning")
                 return None,None
 
 def create_convex_soup(cloud, env, name = "convexsoup"):
@@ -28,7 +28,7 @@ def create_convex_soup(cloud, env, name = "convexsoup"):
         origpts = xyz[inds]
         hullpoints, hullinds = calc_hull(origpts)
         if hullpoints is None: 
-            print "failed to get convex hull!"
+            print("failed to get convex hull!")
             continue
             
             

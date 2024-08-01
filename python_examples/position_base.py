@@ -69,16 +69,16 @@ def position_base_request(robot, link_name, xyz_targ, quat_targ):
     return request
 
 def check_result(result, robot):
-    print "checking trajectory for safety and constraint satisfaction..."
+    print("checking trajectory for safety and constraint satisfaction...")
     success = True    
     if not traj_is_safe(result.GetTraj(), robot):
         success = False
-        print "trajectory has a collision!"
+        print("trajectory has a collision!")
     abstol = 1e-3
     for (name, val) in result.GetConstraints():
         if (val > abstol):
             success = False
-            print "constraint %s wasn't satisfied (%.2e > %.2e)"%(name, val, abstol)
+            print("constraint %s wasn't satisfied (%.2e > %.2e)"%(name, val, abstol))
     return success
         
     
@@ -109,7 +109,7 @@ robot.SetActiveDOFs(np.r_[robot.GetManipulator("rightarm").GetArmIndices(),
     
 success = False
     
-for i_try in xrange(100):
+for i_try in range(100):
     request = position_base_request(robot, LINK_NAME, XYZ_TARGET, QUAT_TARGET)
     s = json.dumps(request)
     trajoptpy.SetInteractive(args.interactive)
@@ -120,8 +120,8 @@ for i_try in xrange(100):
         break
         
 if success:
-    print "succeeded on try %i"%(i_try)
-    print result
+    print("succeeded on try %i"%(i_try))
+    print(result)
 else:
-    print "failed to find a valid solution :("
+    print("failed to find a valid solution :(")
     
